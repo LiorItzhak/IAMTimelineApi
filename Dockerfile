@@ -28,11 +28,4 @@ RUN pip3 install  --upgrade pip && \
 
 COPY . /app
 
-#
-#RUN apt-get update -yqq \
-#    && apt-get install -y --no-install-recommends openssl \
-#    && sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv1.0',g' /etc/ssl/openssl.cnf \
-#    && sed -i 's,^\(CipherString[ ]*=\).*,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
-#    && rm -rf /var/lib/apt/lists/*
-
 CMD [ "python3" , "app.py" ]

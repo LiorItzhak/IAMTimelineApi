@@ -4,5 +4,7 @@ services:
     build: .
     ports:
       - "5001:5000"
+    extra_hosts:
+      - "CM-SAP-SERVER:10.0.0.104"
     environment:
       - FLASK_ENV=development

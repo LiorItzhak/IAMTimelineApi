@@ -2,14 +2,17 @@ import logging
 import os
 
 from flask import Flask, abort
+from flask_caching import Cache
 from dateutil.parser import parser
 import pyodbc
 from geopy.distance import distance
 import pandas as pd
+import random
 
 app = Flask(__name__)
 app.config.from_pyfile(f'{os.getenv("FLASK_ENV")}.conf.cfg')
 app.logger.setLevel(logging.INFO)
+cache = Cache(app)
 date_parser = parser()
 
 
@@ -24,11 +27,14 @@ def exception_mapper(func):
 
 
 @app.route('/')
+@cache.cached(timeout=60)  # 1 minute
 def hello_world():
-    return 'Hello World!'
+    random.randint(0, 10000)
+    return f'Hello World! - random={random.randint(0, 10000)}'
 
 
 @app.route('/route/<int:user_id>/<string:date>')
+@cache.cached(timeout=60 * 60)  # 1 hour
 @exception_mapper
 def get_route(user_id, date):
     try:
